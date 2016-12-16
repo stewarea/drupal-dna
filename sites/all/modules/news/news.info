@@ -1,0 +1,5 @@
+name = News Viewer
+description = Display News articles with Ajax.
+package = Epicodus Examples
+core = 7.x
+files[] = news.module
