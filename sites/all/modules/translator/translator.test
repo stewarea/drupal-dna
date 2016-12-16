@@ -38,4 +38,20 @@ class TranslatorTests extends DrupalWebTestCase {
       $this->assertText('Enter only the acceptable letters please', 'Error Displayed');
     }
 
+
+
+  public function testTranslateValid() {
+
+      $this->drupalGet('translate');
+
+
+      $this->assertText("DNA sequence", 'Form A-OK!');
+
+      $form = array();
+      $form['input'] = "ATCG";
+      $this->drupalPost('translate', $form, t('Translate'));
+
+
+      $this->assertText('TAGC', 'Output displayed!');
   }
+ }

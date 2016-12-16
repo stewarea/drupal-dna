@@ -1,44 +1,77 @@
 <?php
-
-
-function translator_menu() {
-    $items['translate'] = array(
-        'title' => 'DNA Translator',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('translator_form'),
-        'access callback' => TRUE,
-        'type' => MENU_NORMAL_ITEM,
-    );
-    // $items['translator_output'] = array(
-    //     'title' => 'Translate DNA',
-    //     'page callback' => 'translator_output',
-    //     'access callback' => TRUE,
-    //     'type' => MENU_CALLBACK,
-    // );
-    return $items;
-}
-
-
-function translator_form() {
-    $form['input'] = array(
-        '#title' => 'DNA sequence',
-        '#type' => 'textfield',
-        '#description' => t('Enter a DNA sequence consisting of letters A, T, C, or G'),
-        '#element_validate' => array('element_validate_correct_letters'),
-      );
-    $form['submit'] = array(
-        '#type' => 'submit',
-        '#value' => 'Translate',
-    );
-    return $form;
-}
-
-function element_validate_correct_letters($element) {
-    $dna = $element['#value'];
-    $dnaOk = strtoupper($dna);
-    $valid_letters = array('A', 'T', 'C', 'G');
-
-    if(!in_array($dnaOk, $valid_letters)) {
-      form_error($element, t('Enter only the acceptable letters please'));
+    function translator_menu() {
+        $items = array();
+        $items['translate'] = array(
+            'title' => 'DNA Translator',
+            'page callback' => 'drupal_get_form',
+            'access callback' => TRUE,
+            'page arguments' => array('translator_form'),
+            'type' => MENU_NORMAL_ITEM,
+        );
+        $items['translator_success'] = array(
+            'title' => 'You Translated DNA!',
+            'page callback' => 'translator_success_page',
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+        );
+        return $items;
     }
-  }
+
+
+    function translator_form() {
+        $form = array();
+
+        $form['input'] = array(
+            '#title' => 'DNA sequence',
+            '#type' => 'textfield',
+            '#description' => t('Enter a DNA sequence consisting of letters A, T, C, or G'),
+            // '#element_validate' => array('element_validate_correct_letters'),
+            '#required' => TRUE,
+          );
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => 'Translate',
+        );
+        return $form;
+    }
+
+    function element_validate_correct_letters($element) {
+        $dna = $element['#value'];
+        $dnaOk = strtoupper($dna);
+        $valid_letters = array('A', 'T', 'C', 'G');
+
+        if(!in_array($dnaOk, $valid_letters)) {
+          form_error($element, t('Enter only the acceptable letters please'));
+        }
+      }
+
+    function translator_form_submit($form, &$form_state) {
+        $_SESSION['input'] = $form_state['values']['input'];
+
+        $form_state['redirect'] = 'translator_success';
+    }
+
+    function translator_success_page() {
+
+        $input = $_SESSION['input'];
+        // $phrase = str_split($input);
+
+        $output = '';
+
+       for($i=0; $i < strlen($input); $i++){
+          if($input[$i] == ' ') {
+              $output .= '&nbsp';
+          } elseif ($input[$i] == 'A') {
+               $output .= 'T';
+          } elseif ($input[$i] == 'T') {
+               $output .= 'A';
+          } elseif ($input[$i] == 'C') {
+               $output .= 'G';
+          } elseif ($input[$i] == 'G') {
+               $output .= 'C';
+          }
+    }
+
+     return '<p> Input DNA was ' . $_SESSION['input'] . '</p><br />' .
+     '<p>Translated DNA is <b>' .  $output . '</b></p>';
+ }
