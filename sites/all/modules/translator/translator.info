@@ -4,3 +4,4 @@ package = My Modules
 core = 7.x
 files[] = translator.module
 files[] = translator.test
+dependencies[] = simpletest

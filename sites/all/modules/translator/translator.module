@@ -1,0 +1,34 @@
+<?php
+
+
+function translator_menu() {
+    $items['translate'] = array(
+        'title' => 'DNA Translator',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('translator_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    // $items['translator_output'] = array(
+    //     'title' => 'Translate DNA',
+    //     'page callback' => 'translator_output',
+    //     'access callback' => TRUE,
+    //     'type' => MENU_CALLBACK,
+    // );
+    return $items;
+}
+
+
+function translator_form() {
+    $form['input'] = array(
+        '#title' => 'DNA sequence',
+        '#type' => 'textfield',
+        '#description' => t('Enter a DNA sequence consisting of letters A, T, C, or G'),
+        '#element_validate' => array('element_validate_correct_letters'),
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Translate',
+    );
+    return $form;
+}
