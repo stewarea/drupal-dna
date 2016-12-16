@@ -32,3 +32,13 @@ function translator_form() {
     );
     return $form;
 }
+
+function element_validate_correct_letters($element) {
+    $dna = $element['#value'];
+    $dnaOk = strtoupper($dna);
+    $valid_letters = array('A', 'T', 'C', 'G');
+
+    if(!in_array($dnaOk, $valid_letters)) {
+      form_error($element, t('Enter only the acceptable letters please'));
+    }
+  }

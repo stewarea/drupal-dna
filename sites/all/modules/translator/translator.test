@@ -1,26 +1,41 @@
 <?php
 class TranslatorTests extends DrupalWebTestCase {
 
-  public static function getInfo() {
-      return array(
-          'name' => 'Translate Test',
-          'description' => 'Tests for the DNA Translator',
-          'group' => 'My Tests',
-      );
+    public static function getInfo() {
+        return array(
+            'name' => 'Translate Test',
+            'description' => 'Tests for the DNA Translator',
+            'group' => 'My Tests',
+        );
+    }
+    public function setUp() {
+
+          parent::setUp(array('translator'));
+      }
+      public function testFormValid() {
+
+          $this->drupalGet('translate');
+
+
+          $this->assertText("DNA sequence", 'Form A-OK!');
+
+          $form['input'] = "ATCG";
+          $this->drupalPost('translate', $form, t('Translate'));
+
+      }
+
+
+    public function testInputInvalid() {
+
+      $this->drupalGet('translate');
+
+
+      $this->assertText("DNA sequence", 'Form A-OK!');
+
+      $form = array();
+      $form['input'] = "BTCG";
+      $this->drupalPost('translate', $form, t('Translate'));
+      $this->assertText('Enter only the acceptable letters please', 'Error Displayed');
+    }
+
   }
-  public function setUp() {
-
-        parent::setUp(array('translator'));
-    }
-    public function testFormValid() {
-
-        $this->drupalGet('translate');
-
-
-        $this->assertText("DNA sequence", 'Form A-OK!');
-
-        $form['input'] = "ATCG";
-        $this->drupalPost('translate', $form, t('Translate'));
-
-    }
-}

@@ -10,20 +10,20 @@ function news_menu() {
 }
 
 function news_ajax_callback($js, $node_id) {
-  $node = node_load($node_id);
+    $node = node_load($node_id);
 
-  if ($js == 'nojs') {
-    drupal_goto('node/' . $node->nid);
-  }
-
-
-  $build = node_view($node);
-  $html = render($build);
+    if ($js == 'nojs') {
+      drupal_goto('node/' . $node->nid);
+    }
 
 
-  $commands = array();
-  $commands[] = ajax_command_html('#news-ajax-wrapper', $html);
+    $build = node_view($node);
+    $html = render($build);
 
-  print ajax_render($commands);
-  exit;
+
+    $commands = array();
+    $commands[] = ajax_command_html('#news-ajax-wrapper', $html);
+
+    print ajax_render($commands);
+    exit;
 }
