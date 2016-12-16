@@ -9,8 +9,8 @@ class TranslatorTests extends DrupalWebTestCase {
       );
   }
   public function setUp() {
-      
-        parent::setUp(array('translate'));
+
+        parent::setUp(array('translator'));
     }
     public function testFormValid() {
 
@@ -18,6 +18,9 @@ class TranslatorTests extends DrupalWebTestCase {
 
 
         $this->assertText("DNA sequence", 'Form A-OK!');
+
+        $form['input'] = "ATCG";
+        $this->drupalPost('translate', $form, t('Translate'));
 
     }
 }

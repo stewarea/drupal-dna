@@ -25,7 +25,7 @@ function translator_form() {
         '#type' => 'textfield',
         '#description' => t('Enter a DNA sequence consisting of letters A, T, C, or G'),
         '#element_validate' => array('element_validate_correct_letters'),
-
+      );
     $form['submit'] = array(
         '#type' => 'submit',
         '#value' => 'Translate',
