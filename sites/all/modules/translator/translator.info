@@ -1,0 +1,6 @@
+name = DNA translator
+description = translates DNA strings
+package = My Modules
+core = 7.x
+files[] = translator.module
+files[] = translator.test
