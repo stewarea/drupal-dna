@@ -12,6 +12,20 @@ class TranslatorTests extends DrupalWebTestCase {
 
           parent::setUp(array('translator'));
       }
+
+    public function testTranslatorSingleLetter() {
+        $result = transform_strand("A");
+        $this->assertEqual($result, 'T');
+
+        $result = transform_strand('T');
+        $this->assertEqual($result, 'A');
+
+        $result = transform_strand('G');
+        $this->assertEqual($result, 'C');
+
+        $result = transform_strand('C');
+        $this->assertEqual($result, 'G');
+
       public function testFormValid() {
 
           $this->drupalGet('translate');
